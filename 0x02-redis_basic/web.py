@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-web cache and tracker
+web cache file
 """
 import requests
 import redis
@@ -10,27 +10,26 @@ store = redis.Redis()
 
 
 def count_url_access(method):
-    """ Decorator counting how many times
-    a URL is accessed """
+    """ decorator counting accessing to url """
     @wraps(method)
     def wrapper(url):
-        c_k = "cached:" + url
-        c_d = store.get(c_k)
-        if c_d:
-            return c_d.decode("utf-8")
+        ket_of_cache = "cached:" + url
+        data_from_cache = store.get(ket_of_cache)
+        if data_from_cache:
+            return data_from_cache.decode("utf-8")
 
-        countkey = "count:" + url
-        hml = method(url)
+        key_counter = "count:" + url
+        html = method(url)
 
-        store.incr(countkey)
-        store.set(c_k, hml)
-        store.expire(c_k, 10)
-        return hml
+        store.incr(key_counter)
+        store.set(ket_of_cache, html)
+        store.expire(ket_of_cache, 10)
+        return html
     return wrapper
 
 
 @count_url_access
 def get_page(url: str) -> str:
-    """ Get HTML of given url """
+    """ HTML of the url """
     result = requests.get(url)
     return result.text
