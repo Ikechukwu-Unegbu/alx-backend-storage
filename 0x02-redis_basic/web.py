@@ -10,7 +10,7 @@ store = redis.Redis()
 
 
 def get_page(url: str) -> str:
-    """ Returns HTML content of a url """
+    """get html elements of a url"""
     key_for_cache = "cached:" + url
     data_from_cache = store.get(key_for_cache)
     if data_from_cache:
