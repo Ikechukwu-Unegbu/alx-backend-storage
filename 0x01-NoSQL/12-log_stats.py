@@ -15,13 +15,13 @@ def log_stats(mongo_collection, option=None):
     """
     lists = {}
     if option:
-        value = mongo_collection.count_documents(
+        va = mongo_collection.count_documents(
             {"method": {"$regex": option}})
-        print(f"\tmethod {option}: {value}")
+        print(f"\tmethod {option}: {va}")
         return
 
-    result = mongo_collection.count_documents(lists)
-    print(f"{result} logs")
+    res = mongo_collection.count_documents(lists)
+    print(f"{res} logs")
     print("Methods:")
     for method in METHODS:
         log_stats(nginx_collection, method)
